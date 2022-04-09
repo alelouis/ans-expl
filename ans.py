@@ -1,6 +1,6 @@
 import numpy as np
 
-def cumul_inverse(slot, cdf_freq): 
+def cdf_inverse(slot, cdf_freq): 
     for i, v in enumerate(cdf_freq): 
         if slot < v: return i-1
     
@@ -9,7 +9,7 @@ def decode_symbol(state, alphabet, M):
     frequencies = (probs * M).astype(int)
     cdf_freq = np.insert(np.cumsum(frequencies),0,0)
     slot = state % M
-    symbol_idx = cumul_inverse(slot, cdf_freq)
+    symbol_idx = cdf_inverse(slot, cdf_freq)
     symbol = symbols[symbol_idx]
     prev_state = (state//M)*frequencies[symbol_idx] + slot - cdf_freq[symbol_idx]
     return symbol, prev_state
